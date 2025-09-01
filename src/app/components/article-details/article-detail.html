@@ -1,0 +1,43 @@
+<div class="detail-container">
+  @if (loading()) {
+  <div class="loading-container">
+    <mat-spinner />
+  </div>
+  }
+
+  @if (error()) {
+  <div class="error-container">
+    <p>{{ error() }}</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      Go Back
+    </button>
+  </div>
+  }
+
+  @let currentArticle = article();
+
+  @if (!loading() && currentArticle) {
+  <div class="article-content">
+    <div class="article-image-container">
+      <img [src]="currentArticle.image_url" [alt]="currentArticle.title" class="article-image" />
+    </div>
+
+    <mat-card class="article-card">
+      <mat-card-content>
+        <h1 class="article-title">
+          {{ currentArticle.title }}
+        </h1>
+
+        <div class="article-content">
+          {{ currentArticle.summary }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <button mat-button (click)="goBack()">
+      Back to homepage
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  }
+</div>

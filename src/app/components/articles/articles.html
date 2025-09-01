@@ -1,0 +1,46 @@
+<div class="home-container">
+  <div class="search-container">
+    <div>Filter by keywords</div>
+    <app-search (searchChange)="onSearchChange($event)" />
+    @if (filteredCount()) {
+    <div class="results-count">
+      Results: {{ filteredCount() }}
+      <hr />
+    </div>
+    }
+  </div>
+
+  @if (loading()) {
+  <div class="loading-container">
+    <mat-spinner />
+  </div>
+  }
+
+  @if (error(); as error) {
+  <div class="error-container">
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="retryLoadArticles()">
+      Retry
+    </button>
+  </div>
+  }
+
+  @if (!loading() && !error()) {
+  <div class="articles-container">
+    @if (noResultsMessage()) {
+    <div class="no-results">
+      <p>{{ noResultsMessage() }}</p>
+    </div>
+    }
+
+    @if (hasResults()) {
+    <div class="articles-grid">
+      @for (article of articles(); track article.id) {
+      <app-article-card [article]="article"
+                        [searchTerm]="searchTerm()" />
+      }
+    </div>
+    }
+  </div>
+  }
+</div>

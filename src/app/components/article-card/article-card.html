@@ -1,0 +1,27 @@
+@let currentArticle = article();
+
+<mat-card class="article-card" (click)="navigateToArticle()">
+  <img mat-card-image
+       class="article-image"
+       loading="lazy"
+       [src]="currentArticle.image_url"
+       [alt]="currentArticle.title"
+       (error)="onImageError($event)" />
+
+  <mat-card-content>
+    <time [attr.datetime]="currentArticle.published_at">
+      <mat-icon class="calendar-icon">calendar_today</mat-icon>
+      {{ currentArticle.published_at | ordinalDate }}
+    </time>
+
+    <p class="article-title" [innerHTML]="currentArticle.title | truncate:100 | highlight:searchTerm()"></p>
+    <p class="article-summary" [innerHTML]="currentArticle.summary | truncate:100 | highlight:searchTerm()"></p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button matButton>
+      Read more
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

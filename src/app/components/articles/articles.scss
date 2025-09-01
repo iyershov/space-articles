@@ -1,0 +1,66 @@
+.home-container {
+  max-width: 1338px;
+  padding: 0 24px;
+  margin: 0 auto;
+
+  .search-container {
+    padding-block-start: 50px;
+
+    > div {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1em;
+      margin-bottom: 10px;
+    }
+
+    app-search {
+      display: block;
+      max-width: 600px;
+    }
+
+    .results-count {
+      padding-block-start: 2rem;
+
+      hr {
+        opacity: .3;
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+
+  .articles-container {
+    padding-block-start: 45px;
+    padding-block-end: 65px;
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 45px;
+
+      app-article-card {
+        display: contents;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    .articles-container .articles-grid {
+      grid-template-columns: 1fr;
+      justify-content: center;
+    }
+  }
+}
