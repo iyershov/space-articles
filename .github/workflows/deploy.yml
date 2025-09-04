@@ -24,7 +24,7 @@ jobs:
       run: npm ci
       
     - name: Build
-      run: npx ng build --configuration production --base-href "/space-articles/"
+      run: npx ng build --configuration production --base-href "https://iyershov.github.io/space-articles/"
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
