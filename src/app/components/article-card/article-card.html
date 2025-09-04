@@ -14,7 +14,7 @@
       {{ currentArticle.published_at | ordinalDate }}
     </time>
 
-    <p class="article-title" [innerHTML]="currentArticle.title | truncate:100 | highlight:searchTerm()"></p>
+    <p class="article-title" [innerHTML]="currentArticle.title | highlight:searchTerm()"></p>
     <p class="article-summary" [innerHTML]="currentArticle.summary | truncate:100 | highlight:searchTerm()"></p>
   </mat-card-content>
 
