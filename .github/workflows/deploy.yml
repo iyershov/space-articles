@@ -21,10 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
@@ -38,15 +38,15 @@ jobs:
       - name: Install and build
         run: |
           npm i
-          npx ng build --configuration production --base-href "/space-articles/"
+          npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: './dist/space-articles/browser/'
+          path: './dist/${{ github.event.repository.name }}/browser/'
 
       - name: Deploy to GitHub Pages
         id: deployment
