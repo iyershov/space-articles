@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ArticlesStore } from '../../store';
 import { ArticleCardComponent } from '../article-card/article-card';
 import { SearchComponent } from '../search/search';
@@ -9,7 +8,6 @@ import { SearchComponent } from '../search/search';
 @Component({
   selector: 'app-home',
   imports: [
-    MatToolbarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     SearchComponent,
@@ -30,7 +28,7 @@ export class ArticlesComponent implements OnInit {
   protected readonly error = this.articlesStore.error;
 
   ngOnInit(): void {
-    if (!this.articles().length) {
+    if (!this.articlesStore.loaded() && !this.loading() && !this.error()) {
       this.articlesStore.loadArticles();
     }
   }

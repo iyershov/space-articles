@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse, Article } from '../interfaces';
 import { EnvironmentService } from './environment.service';
+import { getSearchKeywords } from '../utils/search';
 
 @Injectable({
   providedIn: 'root'
@@ -24,20 +25,18 @@ export class ArticleService {
   }
 
   filterArticles(articles: Article[], searchTerm: string): Article[] {
-    if (!searchTerm.trim()) {
+    const keywords = getSearchKeywords(searchTerm);
+    if (!keywords.length) {
       return articles;
     }
 
-    const keywords = searchTerm.toLowerCase().split(' ').filter(word => word.length > 0);
-
     const articlesWithScore = articles.map(article => {
+      const titleText = article.title.toLowerCase();
+      const summaryText = article.summary.toLowerCase();
       let titleMatches = 0;
       let summaryMatches = 0;
 
       keywords.forEach(keyword => {
-        const titleText = article.title.toLowerCase();
-        const summaryText = article.summary.toLowerCase();
-
         if (titleText.includes(keyword)) {
           titleMatches++;
         }

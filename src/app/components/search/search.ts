@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,27 +19,28 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './search.html',
   styleUrl: './search.scss'
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
+  readonly inputId = input.required<string>();
   readonly searchTerm = input<string | null>('');
-  protected readonly searchControl = new FormControl('');
+  protected readonly searchControl = new FormControl('', { nonNullable: true });
 
-  protected searchChange = outputFromObservable(
+  readonly searchChange = outputFromObservable(
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
     )
   );
 
-  ngOnInit(): void {
-    this.restoreValue();
+  constructor() {
+    effect(() => {
+      const value = this.searchTerm() ?? '';
+      if (this.searchControl.value !== value) {
+        this.searchControl.setValue(value, { emitEvent: false });
+      }
+    });
   }
 
   clearSearch(): void {
     this.searchControl.setValue('');
-  }
-
-  private restoreValue(): void {
-    const searchTerm = this.searchTerm();
-    this.searchControl.setValue(searchTerm, { emitEvent: false });
   }
 }

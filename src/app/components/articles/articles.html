@@ -1,7 +1,8 @@
 <div class="home-container">
   <div class="search-container">
-    <div>Filter by keywords</div>
-    <app-search (searchChange)="onSearchChange($event)"
+    <label for="article-search">Filter loaded articles by keywords</label>
+    <app-search inputId="article-search"
+                (searchChange)="onSearchChange($event)"
                 [searchTerm]="searchTerm()" />
     @if (filteredCount()) {
     <div class="results-count">

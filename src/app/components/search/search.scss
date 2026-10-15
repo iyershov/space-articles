@@ -1,6 +1,21 @@
+@use '@angular/material' as mat;
+
 mat-form-field {
+  @include mat.form-field-overrides((
+    filled-container-color: white,
+    filled-container-shape: 5px,
+    filled-active-indicator-height: 0,
+    filled-focus-active-indicator-height: 0
+  ));
+
   width: 100%;
   border: 1px solid #EAEAEA;
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
   border-radius: 5px;
+  overflow: hidden;
+
+  &:focus-within {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
 }

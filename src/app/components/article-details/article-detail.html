@@ -16,7 +16,7 @@
 
   @let currentArticle = article();
 
-  @if (!loading() && currentArticle) {
+  @if (!loading() && !error() && currentArticle) {
   <div class="article-content">
     <div class="article-image-container">
       <img [src]="currentArticle.image_url" [alt]="currentArticle.title" class="article-image" />

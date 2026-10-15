@@ -1,7 +1,8 @@
 <mat-form-field subscriptSizing="dynamic">
   <input matInput
+         [id]="inputId()"
          [formControl]="searchControl"
-         placeholder="The most successful IT companies in 2020" />
+         placeholder="e.g. Mars mission" />
 
   @if (!searchControl.value) {
   <mat-icon matPrefix>search</mat-icon>
@@ -9,6 +10,7 @@
 
   @if (searchControl.value) {
   <button mat-icon-button
+          type="button"
           matSuffix
           (click)="clearSearch()"
           aria-label="Clear search">

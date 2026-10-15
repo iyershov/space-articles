@@ -6,7 +6,8 @@
   .search-container {
     padding-block-start: 50px;
 
-    > div {
+    > div, > label {
+      display: block;
       font-weight: 600;
       font-size: 16px;
       line-height: 1em;

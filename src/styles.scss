@@ -2,7 +2,7 @@
 
 :root {
   --primary-text-color: #363636;
-  --mat-button-text-label-text-color: var(--primary-text-color);
+  @include mat.button-overrides((text-label-text-color: var(--primary-text-color)));
 }
 
 * {
@@ -36,23 +36,4 @@ body {
   padding: 1px 2px;
   border-radius: 2px;
   font-weight: bold;
-}
-
-app-search {
-  .mat-mdc-form-field {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-
-    .mdc-line-ripple {
-      display: none;
-    }
-
-    .mdc-text-field--filled {
-      border-bottom-left-radius: var(--mdc-filled-text-field-container-shape,var(--mat-sys-corner-extra-small));
-      border-bottom-right-radius: var(--mdc-filled-text-field-container-shape, var(--mat-sys-corner-extra-small));
-
-      &:not(.mdc-text-field--disabled) {
-        background-color: white;
-      }
-    }
-  }
 }

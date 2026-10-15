@@ -1,8 +1,7 @@
-import { Component, inject, input } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Article } from '../../interfaces';
 import { HighlightPipe, OrdinalDatePipe, TruncatePipe } from '../../pipes';
 
@@ -10,7 +9,7 @@ import { HighlightPipe, OrdinalDatePipe, TruncatePipe } from '../../pipes';
   selector: 'app-article-card',
   imports: [
     MatCardModule,
-    MatButtonModule,
+    RouterLink,
     MatIconModule,
     HighlightPipe,
     OrdinalDatePipe,
@@ -23,13 +22,9 @@ export class ArticleCardComponent {
   readonly article = input.required<Article>();
   readonly searchTerm = input<string | null>('');
 
-  private readonly router = inject(Router);
-
-  navigateToArticle(): void {
-    this.router.navigate(['/article', this.article().id]);
-  }
-
-  onImageError(event: any): void {
-    event.target.style.display = 'none';
+  onImageError(event: Event): void {
+    if (event.target instanceof HTMLImageElement) {
+      event.target.style.display = 'none';
+    }
   }
 }
