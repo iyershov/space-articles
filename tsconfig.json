@@ -10,7 +10,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "esnext",
     "module": "esnext"

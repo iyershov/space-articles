@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +9,6 @@ import { ArticlesStore } from '../../store';
 @Component({
   selector: 'app-article-detail',
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,

@@ -1,59 +1,67 @@
-# SpaceArticles
+# Space Articles
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+An Angular 22 application for browsing and filtering articles from the
+[Spaceflight News API](https://api.spaceflightnewsapi.net/v4/), using Angular Material
+and NgRx SignalStore.
 
-## Development server
+## Requirements
 
-To start a local development server, run:
+- Node.js 24 LTS, version **24.15.0 or newer** within the 24.x release line.
+- npm, as bundled with Node.js 24.
 
-```bash
-ng serve
-```
+The `.nvmrc` file selects Node.js 24 for compatible version managers and CI. Install
+the current Node.js 24 LTS release if your local version is older than 24.15.0.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Install and develop
 
 ```bash
-ng generate component component-name
+npm ci
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open `http://localhost:4200/`. The development server reloads when source files
+change. Development and production API URLs are configured in `src/environments/`.
+
+## Build
 
 ```bash
-ng generate --help
+npm run build
 ```
 
-## Building
+The default production build is written to `dist/space-articles/browser/` and
+enforces the bundle and component stylesheet budgets in `angular.json`.
 
-To build the project run:
+For an unoptimized development build with source maps:
 
 ```bash
-ng build
+npm run build -- --configuration development
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Tests
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Unit and routed component tests run through Angular's Vitest builder with jsdom.
+The article API is mocked in tests; no live API or Chrome installation is required.
 
 ```bash
-ng test
+npm test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+For a single test run, including CI:
 
 ```bash
-ng e2e
+npm run test:ci
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+There is no configured end-to-end test runner.
 
-## Additional Resources
+## Deployment
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The GitHub Pages workflow runs on pushes to `main` or a manual workflow dispatch.
+It selects Node.js from `.nvmrc`, caches npm downloads, installs the lockfile with
+`npm ci`, and runs tests before building and deploying. The production build uses
+the repository name as its base path.
+
+## Code review
+
+See [CODE_REVIEW.md](CODE_REVIEW.md) for prioritized findings, suggested follow-up
+changes, and upgrade validation results.

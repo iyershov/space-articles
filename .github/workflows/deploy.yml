@@ -26,19 +26,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-npm-
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Install and build
-        run: |
-          npm i
-          npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+      - name: Run tests
+        run: npm run test:ci
+
+      - name: Build site
+        run: npm run build -- --configuration production --base-href "/${{ github.event.repository.name }}/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
