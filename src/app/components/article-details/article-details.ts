@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, inject, linkedSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -28,6 +28,7 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
   protected readonly article = this.articlesStore.currentArticle;
   protected readonly loading = this.articlesStore.loadingArticle;
   protected readonly error = this.articlesStore.articleError;
+  protected readonly imageAvailable = linkedSignal(() => !!this.article()?.image_url?.trim());
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -46,6 +47,10 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.articlesStore.clearCurrentArticle();
+  }
+
+  onImageError(): void {
+    this.imageAvailable.set(false);
   }
 
   goBack(): void {

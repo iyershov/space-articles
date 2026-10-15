@@ -4,12 +4,21 @@
    [routerLink]="['/article', currentArticle.id]"
    [attr.aria-label]="'Read article: ' + currentArticle.title">
   <mat-card class="article-card">
-    <img mat-card-image
-         class="article-image"
-         loading="lazy"
-         [src]="currentArticle.image_url"
-         [alt]="currentArticle.title"
-         (error)="onImageError($event)" />
+    <div class="article-image-container">
+      @if (imageAvailable()) {
+        <img mat-card-image
+             class="article-image"
+             loading="lazy"
+             [src]="currentArticle.image_url"
+             [alt]="currentArticle.title"
+             (error)="onImageError()" />
+      } @else {
+        <div class="article-image-placeholder" aria-hidden="true">
+          <mat-icon>image_not_supported</mat-icon>
+          <span>No image available</span>
+        </div>
+      }
+    </div>
 
     <mat-card-content>
       <time [attr.datetime]="currentArticle.published_at">

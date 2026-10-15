@@ -128,6 +128,49 @@ describe('App', () => {
       .toContain('Failed to load article');
   });
 
+  it.each(['', '   '])('shows a detail-page fallback for a missing image URL %j', async imageUrl => {
+    const harness = await RouterTestingHarness.create('/article/101');
+    TestBed.inject(HttpTestingController).expectOne(`${articlesUrl}101/`)
+      .flush({ ...article, image_url: imageUrl });
+    await harness.fixture.whenStable();
+
+    const page = harness.routeNativeElement;
+    expect(page?.querySelector('img')).toBeNull();
+    expect(page?.querySelector('.article-image-container')?.textContent)
+      .toContain('No image available');
+    expect(page?.querySelector('h1')?.textContent).toContain(article.title);
+    expect(page?.querySelector('button')?.textContent).toContain('Back to homepage');
+  });
+
+  it('replaces a failed detail image and restores images when the route changes', async () => {
+    const http = TestBed.inject(HttpTestingController);
+    const harness = await RouterTestingHarness.create('/article/101');
+    http.expectOne(`${articlesUrl}101/`).flush(article);
+    await harness.fixture.whenStable();
+    const firstComponent = harness.routeDebugElement?.componentInstance;
+    const slot = harness.routeNativeElement?.querySelector('.article-image-container');
+    const image = slot?.querySelector('img') as HTMLImageElement;
+
+    image.dispatchEvent(new Event('error'));
+    await harness.fixture.whenStable();
+
+    expect(harness.routeNativeElement?.querySelector('.article-image-container')).toBe(slot);
+    expect(slot?.querySelector('img')).toBeNull();
+    expect(slot?.textContent).toContain('No image available');
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toContain(article.title);
+
+    await harness.navigateByUrl('/article/102');
+    http.expectOne(`${articlesUrl}102/`).flush({
+      ...article, id: 102, image_url: 'https://example.com/new-image.jpg'
+    });
+    await harness.fixture.whenStable();
+
+    expect(harness.routeDebugElement?.componentInstance).toBe(firstComponent);
+    expect(harness.routeNativeElement?.querySelector('img')?.getAttribute('src'))
+      .toBe('https://example.com/new-image.jpg');
+    expect(harness.routeNativeElement?.querySelector('.article-image-placeholder')).toBeNull();
+  });
+
   it('cancels a pending detail request on leave and supports reopening the article', async () => {
     const http = TestBed.inject(HttpTestingController);
     const harness = await RouterTestingHarness.create('/article/101');

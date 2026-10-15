@@ -19,7 +19,15 @@
   @if (!loading() && !error() && currentArticle) {
   <div class="article-content">
     <div class="article-image-container">
-      <img [src]="currentArticle.image_url" [alt]="currentArticle.title" class="article-image" />
+      @if (imageAvailable()) {
+        <img [src]="currentArticle.image_url" [alt]="currentArticle.title" class="article-image"
+          (error)="onImageError()" />
+      } @else {
+        <div class="article-image-placeholder" aria-hidden="true">
+          <mat-icon>image_not_supported</mat-icon>
+          <span>No image available</span>
+        </div>
+      }
     </div>
 
     <mat-card class="article-card">

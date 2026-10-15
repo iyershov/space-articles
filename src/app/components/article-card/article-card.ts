@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, linkedSignal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -22,9 +22,9 @@ export class ArticleCardComponent {
   readonly article = input.required<Article>();
   readonly searchTerm = input<string | null>('');
 
-  onImageError(event: Event): void {
-    if (event.target instanceof HTMLImageElement) {
-      event.target.style.display = 'none';
-    }
+  protected readonly imageAvailable = linkedSignal(() => !!this.article().image_url?.trim());
+
+  onImageError(): void {
+    this.imageAvailable.set(false);
   }
 }

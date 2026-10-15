@@ -28,9 +28,29 @@
 }
 
 .article-image {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.article-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  padding-bottom: 95px;
+  background: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 14px;
+
+  mat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+  }
 }
 
 .article-card {
@@ -63,6 +83,10 @@
 }
 
 @media (max-width: 768px) {
+  .article-image-placeholder {
+    padding-bottom: 65px;
+  }
+
   .article-content {
     font-size: 14px;
 
